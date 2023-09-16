@@ -8,16 +8,25 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+using DatabaseManager.Utils;
+using System.Windows;
+using MySql.Data.MySqlClient;
+using System.Windows.Input;
+using DatabaseManager.Commands;
+using DatabaseManager.Views;
 
 namespace DatabaseManager.ViewModels {
     internal class MainViewModel : INotifyPropertyChanged {
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public ICommand ShowLoginWindowCommand { get; set; }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private string _col;
+        private string _col = String.Empty;
         public string col {
             get => _col;
             set { 
@@ -30,12 +39,35 @@ namespace DatabaseManager.ViewModels {
         public ObservableCollection<Database> Databases { get => databases; }
 
         public MainViewModel() {
-            databases = new ObservableCollection<Database> {
-                new Database("DB1"),
-                new Database("DB2"),
-                new Database("DB3"),
-                new Database("DB4")
-            };
+            databases = InitDatabases();
+
+            ShowLoginWindowCommand = new RelayCommand(ShowLoginWindow, CanShowLoginWindow);
+        }
+
+        private ObservableCollection<Database> InitDatabases() {
+            SqlClient sqlClient = new SqlClient();
+            ObservableCollection<Database> list = new ObservableCollection<Database>();
+            MySqlDataReader reader;
+
+            using (MySqlCommand sqlCommand = new MySqlCommand(Queries.GET_DATABASES_NAMES, sqlClient.connection)) {
+                reader = sqlCommand.ExecuteReader();
+
+                while (reader.Read()) {
+                    list.Add(new Database(reader.GetValue(0).ToString()));
+                }
+            }
+
+                
+            return list;
+        }
+
+        private bool CanShowLoginWindow(object obj) {
+            return true;
+        }
+
+        private void ShowLoginWindow(object obj) {
+            LoginView loginView = new LoginView();
+            loginView.Show();
         }
 
     }

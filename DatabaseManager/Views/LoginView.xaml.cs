@@ -1,5 +1,4 @@
 ﻿using DatabaseManager.ViewModels;
-using DatabaseManager.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +11,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DatabaseManager {
+namespace DatabaseManager.Views
+{
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logika interakcji dla klasy LoginView.xaml
     /// </summary>
-    public partial class MainWindow : Window {
-        public MainWindow() {
+    public partial class LoginView : Window
+    {
+        public LoginView()
+        {
             InitializeComponent();
 
-            DataContext = new MainViewModel();
+            DataContext = new LoginViewModel();
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DatabaseManager"
         mc:Ignorable="d"
-        Title="Database Manager" Width="1920" Height="1080">
+        Title="Database Manager" Width="1280" Height="720">
     <Grid Background="#313131">
         <Grid.ColumnDefinitions>
             <ColumnDefinition>
@@ -21,7 +21,14 @@
             </RowDefinition>
         </Grid.RowDefinitions>
 
-
+        <Button Command="{Binding ShowLoginWindowCommand}"
+                Background="Transparent"
+                Foreground="White"
+                FontFamily="Calibri"
+                FontSize="22">
+            Log in
+        </Button>
+        
         <ListBox Grid.Column="0" 
                  Grid.Row="1"
                  Background="#414141"
